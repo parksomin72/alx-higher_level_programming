@@ -1,0 +1,20 @@
+mport os
+import sys
+
+# Check if the PYFILE environment variable is set
+pyfile = os.getenv("PYFILE")
+if not pyfile:
+    print("PYFILE environment variable is not set.")
+    sys.exit(1)
+
+# Check if the specified Python file exists
+if not os.path.isfile(pyfile):
+    print(f"The specified Python file does not exist: {pyfile}")
+    sys.exit(1)
+
+# Execute the Python script
+try:
+    exec(open(pyfile).read())
+except Exception as e:
+    print(f"Error executing {pyfile}: {e}")
+    sys.exit(1)
