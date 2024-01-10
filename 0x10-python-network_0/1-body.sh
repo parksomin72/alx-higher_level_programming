@@ -1,4 +1,5 @@
 #!/bin/bash
+# This script sends a GET request to a given URL using curl and displays the body of the response for a 200 status code.
 
 # Check if URL is provided
 if [ -z "$1" ]; then
