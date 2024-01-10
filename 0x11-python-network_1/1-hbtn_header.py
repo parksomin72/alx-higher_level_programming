@@ -6,6 +6,7 @@ This script sends a request to a given URL and displays the value of the X-Reque
 import urllib.request
 import sys
 
+
 if __name__ == "__main__":
     # Check if URL is provided
     if len(sys.argv) != 2:
