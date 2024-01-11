@@ -1,4 +1,9 @@
 #!/bin/bash
-# Script to send a GET request to a URL and display the body (for 200 status code only)
-curl -sL -w "%{http_code}" "$1" -o /dev/null --write-out '\n' | grep "200" && curl -s "$1"
 
+# Send a GET request to the URL and display the body of the response
+curl -sL -w "%{http_code}" "$1" -o /dev/null | {
+    read -r status
+    if [ "$status" -eq 200 ]; then
+        curl -sL "$1"
+    fi
+}
