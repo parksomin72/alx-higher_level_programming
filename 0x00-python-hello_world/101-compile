@@ -1,2 +1,34 @@
 #!/bin/bash
-python3 -m compileall -b $PYFILE i
+
+# Check if PYFILE environment variable is set
+if [ -z "$PYFILE" ]; then
+    echo "Error: PYFILE environment variable not set."
+    exit 1
+fi
+
+# Extract the file name and extension
+filename=$(basename -- "$PYFILE")
+extension="${filename##*.}"
+
+# Check if the file has a valid Python extension
+if [ "$extension" != "py" ]; then
+    echo "Error: Not a valid Python script file."
+    exit 1
+fi
+
+# Compile the Python script
+output_filename="${filename%.*}.pyc"
+cache_dir="__pycache__"
+
+echo "Compiling $PYFILE ..."
+python3 -m py_compile "$PYFILE"
+
+# Check if compilation was successful
+if [ $? -eq 0 ]; then
+    echo "Compilation successful."
+    mkdir -p "$cache_dir"
+    mv "$cache_dir/$output_filename" .
+    rm -r "$cache_dir"
+else
+    echo "Compilation failed."
+fi
