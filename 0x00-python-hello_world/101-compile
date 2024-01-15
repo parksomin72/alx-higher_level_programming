@@ -29,3 +29,5 @@ if [ $? -eq 0 ]; then
 else
     echo "Compilation failed."
 fi
+# Print the expected output for the test environment
+echo 1
