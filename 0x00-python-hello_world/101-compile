@@ -21,11 +21,3 @@ output_filename="${filename%.*}.pyc"
 
 echo "Compiling $PYFILE ..."
 python3 -m compileall "$PYFILE"
-
-# Check if compilation was successful
-if [ $? -eq 0 ]; then
-    echo "Compilation successful."
-   
-else
-    echo "Compilation failed."
-fi
