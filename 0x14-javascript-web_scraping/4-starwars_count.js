@@ -1,21 +1,18 @@
 #!/usr/bin/node
-
 const request = require('request');
-
-const apiUrl = process.argv[2];
-
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error(error);
-  } else {
-    try {
-      const filmsData = JSON.parse(body);
-      const wedgeAntillesMovies = filmsData.results.filter(movie =>
-        movie.characters.includes('https://swapi-api.alx-tools.com/api/people/18/')
-      );
-      console.log(wedgeAntillesMovies.length);
-    } catch (parseError) {
-      console.error('Error parsing JSON:', parseError);
+request.get(process.argv[2], function (err, response, body) {
+  if (err) {
+    throw err;
+  } else if (response.statusCode === 200) {
+    const films = JSON.parse(body).results;
+    let count = 0;
+    for (let film of films) {
+      for (let char of film.characters) {
+        if (char.endsWith('18/')) {
+          count++;
+        }
+      }
     }
+    console.log(count);
   }
 });
