@@ -1,35 +1,26 @@
 #!/usr/bin/node
 
 const axios = require('axios');
+const endPoint = 'https://swapi-api.alx-tools.com/api/films/' + process.argv[2];
 
-async function getCharacterName(characterUrl) {
-  try {
-    const response = await axios.get(characterUrl);
-    return response.data.name;
-  } catch (error) {
-    console.error(`Error fetching character data: ${error.message}`);
-    return null;
-  }
-}
+axios.get(endPoint)
+  .then(response => {
+    if (response.status === 200) {
+      const characters = response.data.characters;
 
-async function main() {
-  const filmId = process.argv[2];
-  const endPoint = `https://swapi-api.alx-tools.com/api/films/${filmId}`;
-  
-  try {
-    const response = await axios.get(endPoint);
-    const characters = response.data.characters;
-
-    const characterNames = await Promise.all(characters.map(getCharacterName));
-
-    characterNames.forEach(name => {
-      if (name) {
-        console.log(name);
-      }
-    });
-  } catch (error) {
-    console.error(`Error fetching film data: ${error.message}`);
-  }
-}
-
-main();
+      characters.forEach(character => {
+        axios.get(character)
+          .then(response => {
+            if (response.status === 200) {
+              console.log(response.data.name);
+            }
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+    }
+  })
+  .catch(err => {
+    throw err;
+  });
