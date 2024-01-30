@@ -1,10 +1,19 @@
 #!/usr/bin/node
+
 const request = require('request');
-let endPoint = 'http://swapi.co/api/films/' + process.argv[2];
-request({ url: endPoint, methods: 'GET' }, function (err, response, body) {
-  if (err) {
-    console.log(err);
+
+const movieId = process.argv[2];
+const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+
+request(apiUrl, (error, response, body) => {
+  if (error) {
+    console.error(error);
   } else {
-    console.log(body && JSON.parse(body).title);
+    try {
+      const movieData = JSON.parse(body);
+      console.log(movieData.title);
+    } catch (parseError) {
+      console.error('Error parsing JSON:', parseError);
+    }
   }
 });
