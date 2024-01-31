@@ -1,15 +1,19 @@
 #!/usr/bin/python3
 """
-Query GitHub API for user id.
+Query GitHub API for user's commits in a repository.
 """
 import requests
 from requests.auth import HTTPBasicAuth
 from sys import argv
 
 if __name__ == '__main__':
-    user_id = requests.get(
-        f'https://api.github.com/users/{argv[1]}',
-        auth=HTTPBasicAuth(argv[1], argv[2])
-    ).json().get('id')
+    repository = argv[1]
+    owner = argv[2]
 
-    print(user_id)
+    url = f'https://api.github.com/repos/{owner}/{repository}/commits'
+    commits = requests.get(url, auth=HTTPBasicAuth(owner, argv[3])).json()
+
+    for commit in commits[:10]:
+        sha = commit.get('sha')
+        author_name = commit.get('commit').get('author').get('name')
+        print(f"{sha}: {author_name}")
