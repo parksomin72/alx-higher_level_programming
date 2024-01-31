@@ -1,14 +1,30 @@
 #!/usr/bin/python3
-"""query github api for user id
+"""
+List 10 commits (from the most recent to oldest) of a GitHub repository by a user.
 """
 import requests
-from requests.auth import HTTPBasicAuth
 from sys import argv
 
-
 if __name__ == '__main__':
-    r = requests.get(
-        'https://api.github.com/users/' + argv[1],
-        auth=HTTPBasicAuth(argv[1], argv[2])
-    )
-    print(r.json().get('id'))
+    repository_name = argv[1]
+    owner_name = argv[2]
+
+    # GitHub API endpoint for listing commits
+    api_url = f'https://api.github.com/repos/{owner_name}/{repository_name}/commits'
+
+    # Make a GET request to the GitHub API
+    response = requests.get(api_url)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        commits = response.json()[:10]  # Get the 10 most recent commits
+
+        # Print each commit in the specified format
+        for commit in commits:
+            sha = commit['sha']
+            author_name = commit['commit']['author']['name']
+            print(f"{sha}: {author_name}")
+
+    else:
+        # Print an error message if the request was not successful
+        print(f"Error: Unable to fetch commits. Status code: {response.status_code}")
