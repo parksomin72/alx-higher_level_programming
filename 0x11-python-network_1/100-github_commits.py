@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-List 10 commits (from the most recent to oldest) of a GitHub repository by a user.
+List 10 commits (from the most recent to oldest)
+of a GitHub repository by a user.
 """
 import requests
 from sys import argv
