@@ -11,7 +11,7 @@ if __name__ == '__main__':
     owner_name = argv[2]
 
     # GitHub API endpoint for listing commits
-     api_url = (
+    api_url = (
         f'https://api.github.com/repos/{owner_name}/'
         f'{repository_name}/commits'
     )
