@@ -17,12 +17,9 @@ if __name__ == "__main__":
     url = sys.argv[1]
     email = sys.argv[2]
 
-    # Display the email being sent
-    print("Your email is: {}".format(email))
-
     # Make the POST request with the email as a parameter
     payload = {'email': email}
     response = requests.post(url, data=payload)
 
     # Display the body of the response
-    print(response.text)
+    print(response.text.strip())  # Strip any leading/trailing whitespace
