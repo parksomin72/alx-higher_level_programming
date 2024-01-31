@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-List 10 commits (from the most recent to oldest) of a
-GitHub repository by a user.
+List 10 commits (from the most recent to oldest) of a GitHub repository by a user.
 """
 import requests
 from sys import argv
@@ -11,8 +10,7 @@ if __name__ == '__main__':
     owner_name = argv[2]
 
     # GitHub API endpoint for listing commits
-    api_url = f'https://api.github.com/repos/{owner_name}/' \
-           f'{repository_name}/commits'
+    api_url = f'https://api.github.com/repos/{owner_name}/{repository_name}/commits'
 
     # Make a GET request to the GitHub API
     response = requests.get(api_url)
@@ -30,4 +28,4 @@ if __name__ == '__main__':
     else:
         # Print an error message if the request was not successful
         print(f"Error: Unable to fetch commits."
-      f" Status code: {response.status_code}")
+              f" Status code: {response.status_code}")
