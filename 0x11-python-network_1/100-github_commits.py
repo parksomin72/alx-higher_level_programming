@@ -11,9 +11,19 @@ if __name__ == '__main__':
     owner = argv[2]
 
     url = f'https://api.github.com/repos/{owner}/{repository}/commits'
-    commits = requests.get(url, auth=HTTPBasicAuth(owner, argv[3])).json()
+    response = requests.get(url, auth=HTTPBasicAuth(owner, argv[3]))
 
-    for commit in commits[:10]:
-        sha = commit.get('sha')
-        author_name = commit.get('commit').get('author').get('name')
-        print(f"{sha}: {author_name}")
+    try:
+        commits = response.json()
+
+        if not commits:
+            print("No commits found.")
+            exit(0)
+
+        for commit in commits[:10]:
+            sha = commit.get('sha')
+            author_name = commit.get('commit').get('author').get('name')
+            print(f"{sha}: {author_name}")
+
+    except ValueError:
+        print(f"Error: Unable to fetch commits. Status code: {response.status_code}")
