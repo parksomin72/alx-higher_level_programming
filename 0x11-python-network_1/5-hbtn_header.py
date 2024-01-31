@@ -19,8 +19,9 @@ if __name__ == "__main__":
     response = requests.get(url)
 
     # Check if X-Request-Id is present in the response headers
-    if 'X-Request-Id' in response.headers:
-        x_request_id = response.headers['X-Request-Id']
+    x_request_id = response.headers.get('X-Request-Id')
+    
+    if x_request_id is not None:
         print(x_request_id)
     else:
-        print("X-Request-Id not found in the response headers.")
+        print("None")
