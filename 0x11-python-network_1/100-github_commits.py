@@ -1,22 +1,15 @@
 #!/usr/bin/python3
+"""
+Query GitHub API for user id.
+"""
 import requests
-import sys
+from requests.auth import HTTPBasicAuth
+from sys import argv
 
-if len(sys.argv) != 3:
-    sys.exit(1)
+if __name__ == '__main__':
+    user_id = requests.get(
+        f'https://api.github.com/users/{argv[1]}',
+        auth=HTTPBasicAuth(argv[1], argv[2])
+    ).json().get('id')
 
-repo_name = sys.argv[1]
-owner_name = sys.argv[2]
-url = f'https://api.github.com/repos/{owner_name}/{repo_name}/commits'
-
-try:
-    response = requests.get(url)
-    commits = response.json()
-
-    for commit in commits[:10]:
-        sha = commit['sha']
-        author_name = commit['commit']['author']['name']
-        print(f'{sha}: {author_name}')
-
-except ValueError:
-    print("Error fetching data from GitHub API")
+    print(user_id)
