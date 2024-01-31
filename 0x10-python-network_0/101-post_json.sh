@@ -1,3 +1,4 @@
 #!/bin/bash
 # Sends a JSON POST request to a URL and displays the body of the response
-curl -sX POST "$1" -H "Content-Type: application/json" -d @"$2" | grep -q 'Valid JSON' && echo "Valid JSON" || echo "Not a valid JSON"
+curl -sX POST "$1" -H "Content-Type: application/json" -d @"$2"
+| grep -q 'Valid JSON' && echo "Valid JSON" || echo "Not a valid JSON"
