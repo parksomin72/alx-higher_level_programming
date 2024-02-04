@@ -1,23 +1,2 @@
 #!/bin/bash
-
-# Check if PYFILE environment variable is set
-if [ -z "$PYFILE" ]; then
-    echo "Error: PYFILE environment variable not set."
-    exit 1
-fi
-
-# Extract the file name and extension
-filename=$(basename -- "$PYFILE")
-extension="${filename##*.}"
-
-# Check if the file has a valid Python extension
-if [ "$extension" != "py" ]; then
-    echo "Error: Not a valid Python script file."
-    exit 1
-fi
-
-# Compile the Python script
-output_filename="${filename%.*}.pyc"
-
-echo "Compiling $PYFILE ..."
-python3 -m compileall "$PYFILE"
+python3 -c "import py_compile; py_compile.compile('$PYFILE', '$PYFILE"c"');"
